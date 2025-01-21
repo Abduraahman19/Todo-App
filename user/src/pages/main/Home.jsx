@@ -1,8 +1,5 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import { createTheme } from '@mui/material/styles';
 import { AppProvider } from '@toolpad/core/AppProvider';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import HomeIcon from '@mui/icons-material/Home';
@@ -16,7 +13,7 @@ import WorkIcon from '@mui/icons-material/Work';
 const NAVIGATION = [
   {
     kind: 'header',
-    title: 'Main items',
+    title: 'Dashboard Menu',
   },
   {
     segment: 'Home',
@@ -39,7 +36,7 @@ const NAVIGATION = [
     icon: <CalendarMonthIcon />,
   },
   {
-    segment: 'Sticky Wall',
+    segment: 'StickyWall',
     title: 'Sticky Wall',
     icon: <StickyNote2Icon />,
   },
@@ -55,35 +52,11 @@ const NAVIGATION = [
   },
 ];
 
-const demoTheme = createTheme({
-  cssVariables: {
-    colorSchemeSelector: 'data-toolpad-color-scheme',
-  },
-  colorSchemes: { light: true, dark: true },
-  breakpoints: {
-    values: {
-      xs: 0,
-      sm: 600,
-      md: 600,
-      lg: 1200,
-      xl: 1536,
-    },
-  },
-});
-
 function DemoPageContent({ pathname }) {
   return (
-    <Box
-      sx={{
-        py: 4,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        textAlign: 'center',
-      }}
-    >
-      <Typography variant="h4">Dashboard content for {pathname}</Typography>
-    </Box>
+    <div className="py-4 flex flex-col items-center text-center">
+      <h4 className="text-2xl font-bold">Dashboard content for {pathname}</h4>
+    </div>
   );
 }
 
@@ -110,7 +83,6 @@ function DashboardLayoutAccountSidebar(props) {
     <AppProvider
       navigation={NAVIGATION}
       router={router}
-      theme={demoTheme}
       window={demoWindow}
     >
       <DashboardLayout
@@ -118,16 +90,9 @@ function DashboardLayoutAccountSidebar(props) {
         sidebar={null}
         footer={null}
       >
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            flexDirection: 'column',
-          }}
-        >
+        <div className="flex flex-col items-center justify-center">
           <DemoPageContent pathname={pathname} />
-        </Box>
+        </div>
       </DashboardLayout>
     </AppProvider>
   );

@@ -9,53 +9,80 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import StickyNote2Icon from '@mui/icons-material/StickyNote2';
 import PersonIcon from '@mui/icons-material/Person';
 import WorkIcon from '@mui/icons-material/Work';
+import Home from '../../components/Home';
+import UpComing from '../../components/UpComing';
+import Today from '../../components/Today';
+import Calender from '../../components/Calender';
+import StickyWall from '../../components/StickyWall';
+import Personal from '../../components/Personal';
+import Work from '../../components/Work';
+
+// Components for each navigation item
+const HomeComponent = () => <Home />;
+const UpComingComponent = () => <UpComing />;
+const TodayComponent = () => <Today />;
+const CalenderComponent = () => <Calender />;
+const StickyWallComponent = () => <StickyWall />;
+const PersonalComponent = () => <Personal />;
+const WorkComponent = () => <Work />;
 
 const NAVIGATION = [
-  {
-    kind: 'header',
-    title: 'Dashboard Menu',
-  },
   {
     segment: 'Home',
     title: 'Home',
     icon: <HomeIcon />,
+    component: HomeComponent,
   },
   {
     segment: 'UpComing',
     title: 'UpComing',
     icon: <AccessTimeIcon />,
+    component: UpComingComponent,
   },
   {
     segment: 'Today',
     title: 'Today',
     icon: <PlaylistAddCheckCircleIcon />,
+    component: TodayComponent,
   },
   {
     segment: 'Calender',
     title: 'Calender',
     icon: <CalendarMonthIcon />,
+    component: CalenderComponent,
   },
   {
     segment: 'StickyWall',
     title: 'Sticky Wall',
     icon: <StickyNote2Icon />,
+    component: StickyWallComponent,
   },
   {
     segment: 'Personal',
     title: 'Personal',
     icon: <PersonIcon />,
+    component: PersonalComponent,
   },
   {
     segment: 'Work',
     title: 'Work',
     icon: <WorkIcon />,
+    component: WorkComponent,
   },
 ];
 
 function DemoPageContent({ pathname }) {
+  // Find the active navigation item based on pathname
+  const activeItem = NAVIGATION.find(
+    (item) => item.segment && pathname.includes(item.segment)
+  );
+
+  // If no active item is found, fallback to HomeComponent
+  const ActiveComponent = activeItem?.component || HomeComponent;
+
   return (
-    <div className="py-4 flex flex-col items-center text-center">
-      <h4 className="text-2xl font-bold">Dashboard content for {pathname}</h4>
+    <div className="w-full h-full">
+      <ActiveComponent />
     </div>
   );
 }
@@ -67,7 +94,7 @@ DemoPageContent.propTypes = {
 function DashboardLayoutAccountSidebar(props) {
   const { window } = props;
 
-  const [pathname, setPathname] = React.useState('/dashboard');
+  const [pathname, setPathname] = React.useState('/Home');
 
   const router = React.useMemo(() => {
     return {
@@ -90,7 +117,7 @@ function DashboardLayoutAccountSidebar(props) {
         sidebar={null}
         footer={null}
       >
-        <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center justify-center w-full h-full">
           <DemoPageContent pathname={pathname} />
         </div>
       </DashboardLayout>

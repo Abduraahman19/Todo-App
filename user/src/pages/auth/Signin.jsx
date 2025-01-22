@@ -33,7 +33,7 @@ function SignIn() {
       alert("Sign-In Successful");
       console.log(response.data);
       if (response.status === 200) {
-            navigate("/home");
+            navigate("/dashboard");
     }
     } catch (err) {
       setError(err.response?.data?.message || "An error occurred. Please try again.");

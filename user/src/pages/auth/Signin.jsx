@@ -29,11 +29,13 @@ function SignIn() {
     setError("");
 
     try {
+      
       const response = await axios.post("http://localhost:5000/api/auth/signin", { email, password });
-      alert("Sign-In Successful");
-      console.log(response.data);
       if (response.status === 200) {
-            navigate("/dashboard");
+        alert("Sign-In Successful");
+        console.log(response.data);
+        localStorage.setItem("token", response.data.token);
+        navigate("/dashboard");
     }
     } catch (err) {
       setError(err.response?.data?.message || "An error occurred. Please try again.");
@@ -41,6 +43,7 @@ function SignIn() {
       setLoading(false);
     }
   };
+
 
   return (
     <div className="h-screen md:px-40 sm:px-20 px-10 flex justify-center items-center bg-gradient-to-r from-[#080357] to-[#0A2FB9]">

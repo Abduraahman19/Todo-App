@@ -16,6 +16,7 @@ import Calender from '../../components/Calender';
 import StickyWall from '../../components/StickyWall';
 import Personal from '../../components/Personal';
 import Work from '../../components/Work';
+import { FaSignOutAlt } from "react-icons/fa";
 
 // Components for each navigation item
 const HomeComponent = () => <Home />;
@@ -68,6 +69,11 @@ const NAVIGATION = [
     title: 'Work',
     icon: <WorkIcon />,
     component: WorkComponent,
+  },
+  {
+    segment: 'SignOut',
+    title: 'Sign Out',
+    icon:<FaSignOutAlt className='text-xl' />,
   },
 ];
 

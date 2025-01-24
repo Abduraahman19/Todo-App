@@ -1,138 +1,138 @@
-import * as React from 'react';
+import React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import PropTypes from 'prop-types';
-import { Button, buttonClasses } from '@mui/base/Button';
-import { styled } from '@mui/system';
+import { useLocalStorageState } from '@toolpad/core/useLocalStorageState';
+import dayjs from 'dayjs';
+import Stack from '@mui/material/Stack';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
-const ButtonRoot = React.forwardRef(function ButtonRoot(props, ref) {
-    const { children, ...other } = props;
-
-    return (
-        <svg width="150" height="50" {...other} ref={ref}>
-            <polygon points="0,50 0,0 150,0 150,50" className="bg" />
-            <polygon points="0,50 0,0 150,0 150,50" className="borderEffect" />
-            <foreignObject x="0" y="0" width="150" height="50">
-                <div className="content">{children}</div>
-            </foreignObject>
-        </svg>
-    );
-});
-
-ButtonRoot.propTypes = {
-    children: PropTypes.node,
+const DAYJS_CODEC = {
+    parse: (dateString) => dayjs(dateString),
+    stringify: (date) => date.toISOString(),
 };
 
-const SvgButton = React.forwardRef(function SvgButton(props, ref) {
-    return <Button {...props} slots={{ root: CustomButtonRoot }} ref={ref} />;
-});
+export default function App() {
+    const [dateValue, setDateValue] = useLocalStorageState('custom-value', null, {
+        codec: DAYJS_CODEC,
+    });
 
-const blue = {
-    50: '#F0F7FF',
-    100: '#C2E0FF',
-    200: '#99CCF3',
-    400: '#3399FF',
-    500: '#007FFF',
-    600: '#0072E6',
-    700: '#0059B3',
-    800: '#004C99',
-    900: '#003A75',
-};
-
-const CustomButtonRoot = styled(ButtonRoot)(
-    ({ theme }) => `
-    overflow: visible;
-    cursor: pointer;
-
-    --main-color: ${theme.palette.mode === 'light' ? blue[600] : blue[200]};
-    --hover-color: ${theme.palette.mode === 'light' ? blue[50] : blue[900]};
-    --active-color: ${theme.palette.mode === 'light' ? blue[100] : blue[800]};
-
-    & polygon {
-        fill: transparent;
-        transition: all 800ms ease;
-        pointer-events: none;
-    }
-
-    & .bg {
-        stroke: var(--main-color);
-        stroke-width: 1;
-        filter: drop-shadow(0 4px 16px rgb(0 0 0 / 0.1));
-        fill: transparent;
-    }
-
-    & .borderEffect {
-        stroke: var(--main-color);
-        stroke-width: 2;
-        stroke-dasharray: 120 600;
-        stroke-dashoffset: 120;
-        fill: transparent;
-    }
-
-    &:hover,
-    &.${buttonClasses.focusVisible} {
-        .borderEffect {
-            stroke-dashoffset: -600;
-        }
-
-        .bg {
-            fill: var(--hover-color);
-        }
-    }
-
-    &:focus,
-    &.${buttonClasses.focusVisible} {
-        outline: 2px solid ${theme.palette.mode === 'dark' ? blue[700] : blue[200]};
-        outline-offset: 2px;
-    }
-
-    &.${buttonClasses.active} {
-        & .bg {
-            fill: var(--active-color);
-            transition: fill 150ms ease-out;
-        }
-    }
-
-    & foreignObject {
-        pointer-events: none;
-
-        & .content {
-            font-size: 0.875rem;
-            font-family: 'IBM Plex Sans', sans-serif;
-            font-weight: 600;
-            line-height: 1.5;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--main-color);
-        }
-
-        & svg {
-            margin: 0 4px;
-        }
-    }`,
-);
-
-export default function BasicTextFields() {
     return (
-        <div>
-            <div className='flex justify-center'>
-                <h1 className='text-center text-5xl font-bold font-sans'>Add Note</h1>
+        <div className="p-10">
+            <div className="relative">
+                <div className="absolute left-0">
+                    <UnstyledButton />
+                </div>
+                <h1 className="text-5xl font-bold font-sans text-center">Add Note</h1>
             </div>
-            <Box
-                component="form"
-                sx={{ '& > :not(style)': { m: 1, width: '25ch' } }}
-                noValidate
-                autoComplete="off"
-            >
-                <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-            </Box>
-            <UnstyledButtonCustom />
+
+            <div className="mt-10">
+                <BasicTextFields dateValue={dateValue} setDateValue={setDateValue} />
+            </div>
         </div>
     );
 }
 
-function UnstyledButtonCustom() {
-    return <SvgButton>Button</SvgButton>;
+function BasicTextFields({ dateValue, setDateValue }) {
+    const handleClear = (event) => {
+        event.preventDefault();
+        setDateValue(null);
+    };
+
+    return (
+        <div className="grid grid-cols-1 sm:grid-row-2 lg:grid-row-2 gap-6">
+            <Box
+                component="form"
+                className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-4"
+                noValidate
+                autoComplete="off"
+            >
+                <TextField
+                    id="outlined-title"
+                    label="Title"
+                    variant="outlined"
+                    className="w-full h-12 p-2"
+                />
+
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <Stack direction="row" spacing={2}>
+                        <DatePicker
+                            label="Pick a Date"
+                            value={dateValue}
+                            onChange={(newValue) => setDateValue(newValue)}
+                            className="w-full h-12 p-2"
+                        />
+                        <button
+                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow-lg hover:shadow-xl transition-all duration-150 transform hover:scale-105"
+                            onClick={handleClear}
+                        >
+                            Clear
+                        </button>
+                    </Stack>
+                </LocalizationProvider>
+            </Box>
+
+            <Box
+                component="form"
+                className="grid grid-cols-1 sm:grid-cols-2 gap-6"
+                noValidate
+                autoComplete="off"
+            >
+                <TextField
+                    id="outlined-description"
+                    label="Description"
+                    variant="outlined"
+                    className="w-full h-12 p-2"
+                    multiline
+                    rows={4}
+                />
+
+                <Box className="w-full pt-16 sm:pt-0">
+                    <SelectSmall />
+                </Box>
+            </Box>
+        </div>
+    );
+}
+
+function SelectSmall() {
+    const [age, setAge] = React.useState('');
+
+    const handleChange = (event) => {
+        setAge(event.target.value);
+    };
+
+    return (
+        <FormControl sx={{ m: 1, minWidth: '100%' }} size="medium">
+            <InputLabel id="demo-select-small-label">List</InputLabel>
+            <Select
+                labelId="demo-select-small-label"
+                id="demo-select-small"
+                value={age}
+                label="Age"
+                onChange={handleChange}
+                className="h-12 p-2"
+            >
+                <MenuItem value={10}>Nothing</MenuItem>
+                <MenuItem value={20}>Personal</MenuItem>
+                <MenuItem value={30}>Work</MenuItem>
+            </Select>
+        </FormControl>
+    );
+}
+
+function UnstyledButton() {
+    return (
+        <button
+            className="hidden sm:block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow-lg hover:shadow-xl transition-all duration-150 transform hover:scale-105"
+            onClick={() => window.location.reload()}
+        >
+            Go Home
+        </button>
+    );
 }

@@ -29,6 +29,10 @@ const WorkComponent = () => <Work />;
 
 const NAVIGATION = [
   {
+    kind: 'header',
+    title: <span className="text-base font-bold">Menu</span>,
+  },  
+  {
     segment: 'Home',
     title: 'Home',
     icon: <HomeIcon />,
@@ -69,11 +73,6 @@ const NAVIGATION = [
     title: 'Work',
     icon: <WorkIcon />,
     component: WorkComponent,
-  },
-  {
-    segment: 'SignOut',
-    title: 'Sign Out',
-    icon:<FaSignOutAlt className='text-xl' />,
   },
 ];
 

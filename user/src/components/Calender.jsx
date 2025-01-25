@@ -24,11 +24,11 @@ export default function DateTimeWithLiveClock() {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <div className="flex flex-col sm:flex-row justify-center items-center gap-6 p-6">
         {/* Date Calendar */}
-        <div className="w-full max-w-sm text-neutral-300 bg-neutral-700 rounded-xl p-4 shadow-md hover:shadow-lg transition-shadow duration-300">
+        <div className="w-full max-w-sm text-neutral-300 bg-neutral-700 rounded-xl p-2 sm:p-4 shadow-md hover:shadow-lg transition-shadow duration-300">
           <h2 className="text-lg text-white font-semibold text-center mb-4">
             Select a Date
           </h2>
-          <div className="bg-neutral-800 rounded-xl p-4">
+          <div className="bg-neutral-800 rounded-xl">
             <DateCalendar
               value={date}
               onChange={(newValue) => setDate(newValue)}
@@ -44,7 +44,7 @@ export default function DateTimeWithLiveClock() {
                   },
                 },
                 '& .MuiPickersDay-root.Mui-selected': {
-                  backgroundColor: '#2563EB', // Tailwind's `blue-600`
+                  backgroundColor: '#2563EB', // Tailwind's blue-600
                   color: '#FFFFFF', // White for selected text
                 },
                 '& .MuiButtonBase-root': {

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { useLocalStorageState } from '@toolpad/core/useLocalStorageState';
@@ -29,18 +30,44 @@ function App() {
     const [color, setColor] = useState('#000000');
     const [text, setText] = useState('');
 
+    // Get the token from localStorage
+    const token = localStorage.getItem('token');
+
+    // Check if the form is valid
     const isFormValid = title && description && color && text && dateValue;
 
-    const handleAddTodo = () => {
-        // Save the data and show success notification
-        console.log("Title:", title);
-        console.log("Description:", description);
-        console.log("Color:", color);
-        console.log("Selected Text:", text);
-        console.log("Date:", dateValue ? dateValue.toISOString() : 'No date selected');
+    const handleAddTodo = async () => {
+        if (!isFormValid) {
+            // If the form is incomplete, show an error snackbar
+            enqueueSnackbar('Please fill out all fields before submitting.', { variant: 'error' });
+            return;
+        }
 
-        // Show success notification
-        enqueueSnackbar('Todo Added Successfully!', { variant: 'success' });
+        const date = dateValue ? dateValue.toISOString() : null;
+
+        try {
+            const response = await axios.post('http://localhost:5000/api/todo',
+                { title, description, date, backgroundColor: color, list: text },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            console.log(response);
+            // Show success snackbar when a todo is added successfully
+            enqueueSnackbar('Todo added successfully!', { variant: 'success' });
+
+            // Clear the form fields after successful submission
+            setTitle('');
+            setDescription('');
+            setColor('#000000');
+            setText('');
+            setDateValue(null);
+        } catch (err) {
+            // Handle error
+            enqueueSnackbar(err.response?.data?.message || 'An error occurred. Please try again.', { variant: 'error' });
+        }
     };
 
     return (
@@ -72,9 +99,7 @@ function App() {
                     variant="contained"
                     color="primary"
                     className="w-48"
-                    onClick={handleAddTodo}
-                    disabled={!isFormValid}
-                >
+                    onClick={handleAddTodo}>
                     Add Todo
                 </Button>
             </div>
@@ -191,9 +216,15 @@ function UnstyledButton() {
 }
 
 export default function IntegrationNotistack() {
-  return (
-    <SnackbarProvider maxSnack={3}>
-      <App />
-    </SnackbarProvider>
-  );
+    return (
+        <SnackbarProvider
+            maxSnack={3}
+            anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'center',
+            }}
+        >
+            <App />
+        </SnackbarProvider>
+    );
 }

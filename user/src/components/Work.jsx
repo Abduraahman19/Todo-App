@@ -2,7 +2,7 @@ import React from 'react'
 
 function Work() {
   return (
-    <div>Work</div>
+    <div className='text-center font-bold text-3xl pt-20'>Work</div>
   )
 }
 

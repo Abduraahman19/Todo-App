@@ -15,7 +15,6 @@ function SignIn() {
   const [error, setError] = useState(""); // Error message
   const [loading, setLoading] = useState(false); // Loading state
   const navigate = useNavigate();
-  
 
   // Toggle password visibility
   const togglePasswordVisibility = () => {
@@ -26,24 +25,27 @@ function SignIn() {
   const handleSignIn = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError("");
+    setError(""); // Clear previous errors
 
     try {
-      
       const response = await axios.post("http://localhost:5000/api/auth/signin", { email, password });
       if (response.status === 200) {
         alert("Sign-In Successful");
         console.log(response.data);
         localStorage.setItem("token", response.data.token);
         navigate("/dashboard");
-    }
+      }
     } catch (err) {
-      setError(err.response?.data?.message || "An error occurred. Please try again.");
+      // Check for "Invalid credentials" error and display "Incorrect password" instead
+      if (err.response?.data?.message === "Invalid credentials") {
+        setError("Incorrect Password");
+      } else {
+        setError(err.response?.data?.message || "An error occurred. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
   };
-
 
   return (
     <div className="h-screen md:px-40 sm:px-20 px-10 flex justify-center items-center bg-gradient-to-r from-[#080357] to-[#0A2FB9]">

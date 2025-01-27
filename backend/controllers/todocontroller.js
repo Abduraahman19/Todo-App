@@ -3,8 +3,10 @@ const jwt = require('jsonwebtoken');
 
 // Create a new to-do
 const createTodo = async (req, res) => {
-  const { title, description, date, backgroundColor } = req.body;
+  const { title, description, date, backgroundColor, list } = req.body;
+
   const token = req.headers.authorization.split(' ')[1];
+
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -15,6 +17,7 @@ const createTodo = async (req, res) => {
       description,
       date,
       backgroundColor,
+      list, // Save the list
       userId,
     });
 
@@ -49,8 +52,7 @@ const getTodoById = async (req, res) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const userId = decoded.id;
 
-    // Find the to-do by ID and ensure it belongs to the user
-    const todo = await Todo.find({ userId: userId });
+    const todo = await Todo.findOne({ _id: id, userId });
 
     if (!todo) {
       return res.status(404).json({ message: 'To-do not found or not authorized' });
@@ -65,18 +67,17 @@ const getTodoById = async (req, res) => {
 // Update a specific to-do
 const updateTodo = async (req, res) => {
   const { id } = req.params;
-  const { title, description, date, backgroundColor } = req.body;
+  const { title, description, date, backgroundColor, list } = req.body;
   const token = req.headers.authorization.split(' ')[1];
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const userId = decoded.id;
 
-    // Find and update only if the to-do belongs to the user
     const updatedTodo = await Todo.findOneAndUpdate(
       { _id: id, userId },
-      { title, description, date, backgroundColor },
-      { new: true } // Return the updated document
+      { title, description, date, backgroundColor, list },
+      { new: true }
     );
 
     if (!updatedTodo) {
@@ -98,7 +99,6 @@ const deleteTodo = async (req, res) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const userId = decoded.id;
 
-    // Find and delete only if the to-do belongs to the user
     const deletedTodo = await Todo.findOneAndDelete({ _id: id, userId });
 
     if (!deletedTodo) {

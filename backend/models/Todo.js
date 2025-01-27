@@ -5,7 +5,8 @@ const todoSchema = new mongoose.Schema({
   description: { type: String, required: true },
   date: { type: String, required: true },
   backgroundColor: { type: String, default: '#ffffff' },
-  userId: { type: String, required: true }, 
+  userId: { type: String, required: true },
+  list: { type: String, required: true }, // New field for the list
 });
 
 module.exports = mongoose.model('Todo', todoSchema);

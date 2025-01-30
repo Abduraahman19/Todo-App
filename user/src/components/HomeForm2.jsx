@@ -29,6 +29,8 @@ function App() {
     const [description, setDescription] = useState('');
     const [color, setColor] = useState('#000000');
     const [text, setText] = useState('');
+    const [id, setId] = useState(''); // To store the ID of the Todo to be updated
+console.log(id);
 
     const token = localStorage.getItem('token');
 
@@ -43,7 +45,7 @@ function App() {
         const date = dateValue ? dateValue.toISOString() : null;
 
         try {
-            const response = await axios.post('http://localhost:5000/api/todo',
+            const response = await axios.put(`http://localhost:5000/api/todo/${id}`, 
                 { title, description, date, backgroundColor: color, list: text },
                 {
                     headers: {
@@ -51,14 +53,17 @@ function App() {
                     },
                 }
             );
-            enqueueSnackbar('Todo Added Successfully!', { variant: 'success' });
+            console.log(response);
+            enqueueSnackbar('Todo Updated successfully!', { variant: 'success' });
 
             setTitle('');
             setDescription('');
             setColor('#000000');
             setText('');
             setDateValue(null);
+            setId(''); // Reset the `id` after successful update
         } catch (err) {
+            console.log(err);  // Log the error for better debugging
             enqueueSnackbar(err.response?.data?.message || 'An error occurred. Please try again.', { variant: 'error' });
         }
     };
@@ -84,6 +89,8 @@ function App() {
                     setText={setText}
                     color={color}
                     setColor={setColor}
+                    id={id}
+                    setId={setId} // Pass the ID setter to capture the ID
                 />
             </div>
 
@@ -93,14 +100,14 @@ function App() {
                     color="primary"
                     className="w-48"
                     onClick={handleAddTodo}>
-                    Add Todo
+                    Update Todo
                 </Button>
             </div>
         </div>
     );
 }
 
-function BasicTextFields({ dateValue, setDateValue, title, setTitle, description, setDescription, text, setText, color, setColor }) {
+function BasicTextFields({ dateValue, setDateValue, title, setTitle, description, setDescription, text, setText, color, setColor, id, setId }) {
     const handleClear = (event) => {
         event.preventDefault();
         setDateValue(null);

@@ -1,7 +1,6 @@
 const Todo = require('../models/Todo');
 const jwt = require('jsonwebtoken');
 
-// Create a new to-do
 const createTodo = async (req, res) => {
   const { title, description, date, backgroundColor, list } = req.body;
 
@@ -17,7 +16,7 @@ const createTodo = async (req, res) => {
       description,
       date,
       backgroundColor,
-      list, // Save the list
+      list,
       userId,
     });
 
@@ -28,7 +27,6 @@ const createTodo = async (req, res) => {
   }
 };
 
-// Get all to-dos for a user
 const getTodos = async (req, res) => {
   const token = req.headers.authorization.split(' ')[1];
 
@@ -43,7 +41,6 @@ const getTodos = async (req, res) => {
   }
 };
 
-// Get a specific to-do by ID
 const getTodoById = async (req, res) => {
   const { id } = req.params;
   const token = req.headers.authorization.split(' ')[1];
@@ -64,7 +61,6 @@ const getTodoById = async (req, res) => {
   }
 };
 
-// Update a specific to-do
 const updateTodo = async (req, res) => {
   const { id } = req.params;
   const { title, description, date, backgroundColor, list } = req.body;
@@ -90,7 +86,6 @@ const updateTodo = async (req, res) => {
   }
 };
 
-// Delete a specific to-do
 const deleteTodo = async (req, res) => {
   const { id } = req.params;
   const token = req.headers.authorization.split(' ')[1];

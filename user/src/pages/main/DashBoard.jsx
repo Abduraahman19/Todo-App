@@ -16,9 +16,7 @@ import Calender from '../../components/Calender';
 import StickyWall from '../../components/StickyWall';
 import Personal from '../../components/Personal';
 import Work from '../../components/Work';
-import { FaSignOutAlt } from "react-icons/fa";
 
-// Components for each navigation item
 const HomeComponent = () => <Home />;
 const UpComingComponent = () => <UpComing />;
 const TodayComponent = () => <Today />;
@@ -77,12 +75,12 @@ const NAVIGATION = [
 ];
 
 function DemoPageContent({ pathname }) {
-  // Find the active navigation item based on pathname
+
   const activeItem = NAVIGATION.find(
     (item) => item.segment && pathname.includes(item.segment)
   );
 
-  // If no active item is found, fallback to HomeComponent
+
   const ActiveComponent = activeItem?.component || HomeComponent;
 
   return (

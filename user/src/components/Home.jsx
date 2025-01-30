@@ -1,97 +1,137 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';  // Import axios for making API calls
+import axios from 'axios';
 import { IoIosAddCircleOutline } from "react-icons/io";
+import { MdDelete, MdEdit } from "react-icons/md";
 import HomeForm from './HomeForm';
-import LinearProgress from '@mui/material/LinearProgress';  // Import LinearProgress from MUI
+import LinearProgress from '@mui/material/LinearProgress';
+import HomeForm2 from './HomeForm2'; // Import HomeForm2
 
 function Home() {
   const [showForm, setShowForm] = useState(false);
-  const [todos, setTodos] = useState([]); // State to hold the fetched todos
-  const [loading, setLoading] = useState(false); // State to manage loading state
-  const [error, setError] = useState(null); // State to manage any errors
+  const [todos, setTodos] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [editTodo, setEditTodo] = useState(null);
+  const [showHomeForm2, setShowHomeForm2] = useState(false);
+
+  const handleEditButtonClick = () => {
+    setShowHomeForm2(true); // Show HomeForm2 when clicked
+    setShowForm(false); // Hide HomeForm when Edit is clicked
+  };
 
   const handleButtonClick = () => {
+    setEditTodo(null);
     setShowForm(true);
+    setShowHomeForm2(false); // Close HomeForm2 if open
   };
 
   const handleFormClose = () => {
     setShowForm(false);
+    setShowHomeForm2(false); // Ensure HomeForm2 is closed
   };
 
   useEffect(() => {
-    // Fetch data from the API on component mount
-    setLoading(true);  // Set loading to true while fetching data
+    fetchTodos();
+  }, []);
 
-    // Get token from localStorage
+  const fetchTodos = () => {
+    setLoading(true);
     const token = localStorage.getItem('token');
 
-    // If token exists, make the API call with the token
-    if (token) {
-      axios
-        .get('http://localhost:5000/api/todos', {
-          headers: {
-            Authorization: `Bearer ${token}`  // Send the token in the Authorization header
-          }
-        })
-        .then((response) => {
-          // Log the full API response to console
-          console.log('API Response:', response.data);
-
-          // Assuming response.data contains an array of todos
-          const todosData = Array.isArray(response.data.todos) ? response.data.todos : [];
-          setTodos(todosData);  // Set the fetched data into the state
-          setLoading(false);  // Set loading to false after data is fetched
-        })
-        .catch((err) => {
-          // Handle any errors
-          setError(err.message);  // Set error state if something goes wrong
-          setLoading(false);  // Set loading to false even if there's an error
-          console.error('Error fetching todos:', err);  // Log the error
-        });
-    } else {
-      setLoading(false);  // If no token, stop loading
+    if (!token) {
+      setLoading(false);
       setError('No token found');
+      return;
     }
-  }, []);  // Empty dependency array to make the API call only once when the component mounts
+
+    axios.get('http://localhost:5000/api/todos', {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(response => {
+        setTodos(Array.isArray(response.data.todos) ? response.data.todos : []);
+        setLoading(false);
+      })
+      .catch(err => {
+        setError(err.message);
+        setLoading(false);
+        console.error('Error fetching todos:', err);
+      });
+  };
+
+  const handleDelete = (id) => {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      console.error('No token found');
+      return;
+    }
+
+    if (!id) {
+      console.error('Todo ID is undefined');
+      return;
+    }
+
+    axios.delete(`http://localhost:5000/api/todo/${id}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(() => {
+        setTodos(todos.filter(todo => todo._id !== id)); 
+        console.log(`Todo with ID ${id} deleted successfully.`);
+      })
+      .catch(err => {
+        console.error('Error deleting todo:', err);
+        setError('Error deleting todo');
+      });
+  };
+
+  const handleEdit = (todo) => {
+    setEditTodo(todo);
+    setShowForm(true);
+    setShowHomeForm2(false); // Close HomeForm2 if open
+  };
 
   return (
     <div className='justify-center sm:justify-start p-5 min-h-screen'>
       {loading ? (
-        <div className="w-full py-10"> {/* Center the loader vertically */}
-          <LinearProgress />  {/* MUI LinearProgress as the loader */}
+        <div className="w-full px-10 sm:px-20 md:px-40 py-10">
+          <LinearProgress />
         </div>
       ) : error ? (
-        <div>Error: {error}</div>  // Show error message if there's an error
+        <div>Error: {error}</div>
       ) : (
         <div>
-          {/* Conditionally render todos data only if the form is not being shown */}
-          {!showForm && Array.isArray(todos) && todos.length > 0 ? (
+          {!showForm && !showHomeForm2 && todos.length > 0 ? (
             <ul>
               {todos.map((todo) => (
-                <li key={todo.id} className="mb-4 p-4 border-b"
-                  style={{
-                    backgroundColor: todo.backgroundColor || '#f0f0f0', // Use background color from todo or default
-                  }}
+                <li key={todo._id} className="mb-4 rounded-lg p-4 border-b flex justify-between items-center"
+                  style={{ backgroundColor: todo.backgroundColor || '#f0f0f0' }}
                 >
                   <div className='text-lg text-white'>
-                    {/* Displaying title, description, date, list, and background color */}
-                    <div><strong className=''>Title:</strong> {todo.title}</div>
+                    <div><strong>Title:</strong> {todo.title}</div>
                     <div><strong>Description:</strong> {todo.description}</div>
                     <div><strong>Date:</strong> {new Date(todo.date).toLocaleDateString()}</div>
                     <div><strong>List:</strong> {todo.list}</div>
+                  </div>
+
+                  <div className="flex space-x-3">
+                    <button onClick={handleEditButtonClick} className="text-blue-500 hover:text-blue-700 transition">
+                      <MdEdit size={24} />
+                    </button>
+                    <button onClick={() => handleDelete(todo._id)} className="text-red-500 hover:text-red-700 transition">
+                      <MdDelete size={24} />
+                    </button>
                   </div>
                 </li>
               ))}
             </ul>
           ) : (
-            !showForm && <div><h1 className='text-center justify-center font-bold text-2xl'>No todos found. Add one to get started!</h1></div>
+            !showForm && !showHomeForm2 && <div><h1 className='text-center font-bold text-2xl'>No todos found. Add one to get started!</h1></div>
           )}
         </div>
       )}
 
-      {/* Add the button below the todos or form */}
-      {!showForm && (
-        <div 
+      {!showForm && !showHomeForm2 && (
+        <div
           className='w-80 h-80 rounded-lg cursor-pointer text-6xl flex justify-center items-center border border-neutral-500 group transition-all duration-300 hover:border-blue-500 active:scale-95 active:shadow-inner active:shadow-blue-500 active:border-blue-500 mt-5'
           onClick={handleButtonClick}
         >
@@ -99,8 +139,8 @@ function Home() {
         </div>
       )}
 
-      {/* Conditionally render the HomeForm component */}
-      {showForm && <HomeForm onClose={handleFormClose} />}
+      {showForm && <HomeForm onClose={handleFormClose} editTodo={editTodo} />}
+      {showHomeForm2 && <HomeForm2 onClose={() => setShowHomeForm2(false)} />}
     </div>
   );
 }

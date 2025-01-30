@@ -12,7 +12,6 @@ const AppRoutes = () => {
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/" element={<SignIn />} />
                 <Route path="/dashboard" element={<DashboardLayoutBasic />} />
-                {/* Add more routes here */}
             </Routes>
         </Router>
     );

@@ -1,4 +1,3 @@
-// backend/config/db.js
 const mongoose = require('mongoose');
 
 const connectDB = async () => {
@@ -10,7 +9,7 @@ const connectDB = async () => {
     console.log('Database connected successfully');
   } catch (err) {
     console.error('Database connection failed:', err);
-    process.exit(1); // Exit on failure
+    process.exit(1);
   }
 };
 

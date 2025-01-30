@@ -43,7 +43,6 @@ function Signup() {
     return (
         <div className="h-screen md:px-40 sm:px-20 px-10 flex justify-center items-center bg-gradient-to-r from-[#080357] to-[#0A2FB9]">
             <div className="w-full max-w-[1280px] h-auto lg:h-[620px] bg-white rounded-2xl shadow-lg flex flex-col lg:flex-row overflow-hidden">
-                {/* Left Side - Form */}
                 <div className="w-full lg:w-1/2 md:px-[60px] px-[30px] md:py-[69px] py-[39px] flex flex-col justify-center">
                     <h1 className="text-3xl md:text-4xl text-center font-extrabold text-blue-900 mb-6 md:mb-8">Get Started.</h1>
                     <form className="space-y-4 md:space-y-6" onSubmit={handleSignUp}>
@@ -125,7 +124,6 @@ function Signup() {
                         </Link>
                     </p>
                 </div>
-                {/* Right Side - Image */}
                 <div className="bg-gradient-to-l sm:w-1/2 from-[#0A2FB9] to-[#080357] items-center justify-center hidden lg:block">
                     <img
                         src="/Icon/vr.jpg"

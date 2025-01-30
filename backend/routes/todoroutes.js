@@ -5,22 +5,17 @@ const {
   updateTodo, 
   getTodos, 
   deleteTodo, 
-  getTodoById // Import the new controller function
+  getTodoById
 } = require('../controllers/todocontroller');
 
-// Create a new Todo
-router.post('/todo', createTodo); // Ensure user is authenticated
+router.post('/todo', createTodo); 
 
-// Update an existing Todo
-router.put('/todo/:id', updateTodo); // Ensure user is authenticated
+router.put('/todo/:id', updateTodo); 
 
-// Get all Todos
-router.get('/todos', getTodos); // Ensure user is authenticated
+router.get('/todos', getTodos); 
 
-// Get a specific Todo by ID
-router.get('/gettodo', getTodoById); // Ensure user is authenticated
+router.get('/gettodo', getTodoById); 
 
-// Delete a Todo
-router.delete('/todo/:id', deleteTodo); // Ensure user is authenticated
+router.delete('/todo/:id', deleteTodo); 
 
 module.exports = router;

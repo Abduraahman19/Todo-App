@@ -89,6 +89,7 @@ const updateTodo = async (req, res) => {
 const deleteTodo = async (req, res) => {
   const { id } = req.params;
   const token = req.headers.authorization.split(' ')[1];
+console.log(id, token);
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);

@@ -4,6 +4,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 import { MdDelete, MdEdit } from "react-icons/md";
 import HomeForm from './HomeForm';
 import HomeForm2 from './HomeForm2';
+import Tooltip from '@mui/material/Tooltip';
 
 function TodayTodos() {
   const [todos, setTodos] = useState([]);
@@ -30,14 +31,11 @@ function TodayTodos() {
       const response = await axios.get('http://localhost:5000/api/todos', {
         headers: { Authorization: `Bearer ${token}` },
       });
-      const today = new Date().toLocaleDateString(); // Get today's date in the same format
 
-      // Filter todos that are for today
-      const todaysTodos = response.data.todos.filter(todo => {
-        return new Date(todo.date).toLocaleDateString() === today;
-      });
+      // Filter todos that have "work" in their list, regardless of the date
+      const workTodos = response.data.todos.filter(todo => todo.list.toLowerCase() === "work");
 
-      setTodos(todaysTodos); // Set only today's todos
+      setTodos(workTodos); // Set only todos that belong to "work" list
     } catch (error) {
       console.error('Error fetching todos:', error);
       setError('Error fetching todos');
@@ -86,7 +84,7 @@ function TodayTodos() {
     <div className="p-5 min-h-screen">
       <div className="flex justify-center">
         <h2 className="text-3xl font-bold text-center shadow-neutral-700 shadow-xl bg-[#737373] p-4 rounded">
-          Today's Todos
+          Work Todos
         </h2>
       </div>
 
@@ -100,27 +98,31 @@ function TodayTodos() {
           ) : error ? (
             <p className="text-red-500 text-center">{error}</p>
           ) : todos.length > 0 ? (
-            <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
+            <ul className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 gap-6">
               {todos.map((todo) => (
                 <li
                   key={todo._id}
-                  className="flex flex-col pt-4 pl-4 pb-3 rounded-lg mt-5 shadow-neutral-700 shadow-xl"
+                  className="flex flex-col pt-4 pl-4 pb-3 rounded-lg mt-10 mx-10 shadow-neutral-700 shadow-xl"
                   style={{ backgroundColor: todo.backgroundColor || '#f0f0f0' }}
                 >
                   <div className="text-lg w-40 text-white mb-auto flex-grow">
-                    <div className='font-bold text-3xl'>{todo.title}</div>
+                    <div className='font-bold text-2xl'>{todo.title}</div>
                     <div className='font-medium text-xl'>{todo.description}</div>
                   </div>
 
                   <div className="flex space-x-3 mt-8">
                     <div className='mt-7 space-x-3'>
-                      <button onClick={() => handleEditButtonClick(todo, "HomeForm2")}
-                        className="text-blue-500 hover:text-blue-700 transition rounded-lg h-10 w-9 hover:bg-white border-blue-600 px-1 border focus:outline-none">
-                        <MdEdit size={24} />
-                      </button>
-                      <button onClick={() => handleDelete(todo._id)} className="text-red-500 hover:text-red-700 transition rounded-md border h-10 w-9 px-1 border-red-500 hover:bg-red-100 focus:outline-none">
-                        <MdDelete size={24} />
-                      </button>
+                      <Tooltip title="Edit" arrow placement="top">
+                        <button onClick={() => handleEditButtonClick(todo, "HomeForm2")}
+                          className="text-blue-500 hover:text-blue-700 transition rounded-lg h-10 w-9 hover:bg-white border-blue-600 px-1 border focus:outline-none">
+                          <MdEdit size={24} />
+                        </button>
+                      </Tooltip>
+                      <Tooltip title="Delete" arrow placement="top">
+                        <button onClick={() => handleDelete(todo._id)} className="text-red-500 hover:text-red-700 transition rounded-md border h-10 w-9 px-1 border-red-500 hover:bg-red-100 focus:outline-none">
+                          <MdDelete size={24} />
+                        </button>
+                      </Tooltip>
                     </div>
                     <div className='pt-5 text-xl font-semibold text-white font-sans'>
                       <div className=''>{new Date(todo.date).toLocaleDateString()}</div>

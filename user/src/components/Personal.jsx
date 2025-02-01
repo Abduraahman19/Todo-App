@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import LinearProgress from '@mui/material/LinearProgress';
 import { MdDelete, MdEdit } from "react-icons/md"; // Add icons for Edit and Delete
-import HomeForm from './HomeForm'; // Import the HomeForm for editing
+import HomeForm2 from './HomeForm2'; // Import HomeForm2 for editing
+import Tooltip from '@mui/material/Tooltip';
 
 function Personal() {
   const [todos, setTodos] = useState([]);
@@ -90,27 +91,31 @@ function Personal() {
           ) : error ? (
             <p className="text-red-500 text-center">{error}</p>
           ) : filteredTodos.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 gap-6">
               {filteredTodos.map((todo) => (
                 <div
                   key={todo._id}
-                  className="flex flex-col pt-4 pl-4 pb-3 rounded-lg mt-5 shadow-neutral-700 shadow-xl"
+                  className="flex flex-col pt-4 pl-4 pb-3 rounded-lg mt-10 mx-10 shadow-neutral-700 shadow-xl"
                   style={{ backgroundColor: todo.backgroundColor || '#f0f0f0' }} // Background color applied
                 >
                   <div className="text-lg w-40 text-white mb-auto flex-grow">
-                    <div className='font-bold text-3xl'>{todo.title}</div>
+                    <div className='font-bold text-2xl'>{todo.title}</div>
                     <div className='font-medium text-xl'>{todo.description}</div>
                   </div>
 
                   {/* Align the buttons at the bottom and use flex layout */}
                   <div className="flex space-x-3 mt-8">
                     <div className='mt-7 space-x-3'>
-                      <button onClick={() => handleEdit(todo)} className="text-blue-500 hover:text-blue-700 transition rounded-lg h-10 w-9 hover:bg-white border-blue-600 px-1 border focus:outline-none">
-                        <MdEdit size={24} />
-                      </button>
-                      <button onClick={() => handleDelete(todo._id)} className="text-red-500 hover:text-red-700 transition rounded-md border h-10 w-9 px-1 border-red-500 hover:bg-red-100 focus:outline-none">
-                        <MdDelete size={24} />
-                      </button>
+                      <Tooltip title="Edit" arrow placement="top">
+                        <button onClick={() => handleEdit(todo)} className="text-blue-500 hover:text-blue-700 transition rounded-lg h-10 w-9 hover:bg-white border-blue-600 px-1 border focus:outline-none">
+                          <MdEdit size={24} />
+                        </button>
+                      </Tooltip>
+                      <Tooltip title="Delete" arrow placement="top">
+                        <button onClick={() => handleDelete(todo._id)} className="text-red-500 hover:text-red-700 transition rounded-md border h-10 w-9 px-1 border-red-500 hover:bg-red-100 focus:outline-none">
+                          <MdDelete size={24} />
+                        </button>
+                      </Tooltip>
                     </div>
                     <div className='pt-5 text-xl font-semibold text-white font-sans'>
                       <div className=''>{new Date(todo.date).toLocaleDateString()}</div>
@@ -126,8 +131,8 @@ function Personal() {
         </>
       )}
 
-      {/* Render the form if showForm is true */}
-      {showForm && <HomeForm onClose={() => setShowForm(false)} editTodo={editTodo} />}
+      {/* Render HomeForm2 if showForm is true */}
+      {showForm && <HomeForm2 onClose={() => setShowForm(false)} editTodo={editTodo} />}
     </div>
   );
 }

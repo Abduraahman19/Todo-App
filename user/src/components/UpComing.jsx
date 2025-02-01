@@ -4,6 +4,7 @@ import LinearProgress from "@mui/material/LinearProgress";
 import { MdDelete, MdEdit } from "react-icons/md";
 import HomeForm from "./HomeForm";
 import HomeForm2 from "./HomeForm2";
+import Tooltip from '@mui/material/Tooltip';
 
 function UpComing() {
   const [todos, setTodos] = useState([]);
@@ -97,31 +98,33 @@ function UpComing() {
       ) : (
         <>
           {!activeForm && todos.length > 0 ? (
-            <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
+            <ul className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 gap-6">
               {todos.map((todo) => (
                 <li
                   key={todo._id}
-                  className="flex flex-col pt-4 pl-4 pb-3 rounded-lg mt-5 shadow-neutral-700 shadow-xl"
+                  className="flex flex-col pt-4 pl-4 pb-3 rounded-lg mt-10 mx-10 shadow-neutral-700 shadow-xl"
                   style={{ backgroundColor: todo.backgroundColor || "#f0f0f0" }}
                 >
                   <div className="text-lg w-40 text-white mb-auto flex-grow">
-                    <div className="font-bold text-3xl">{todo.title}</div>
+                    <div className="font-bold text-2xl">{todo.title}</div>
                     <div className="font-medium text-xl">{todo.description}</div>
                   </div>
                   <div className="flex space-x-3 mt-8">
                     <div className="mt-7 space-x-3">
-                      <button
-                        onClick={() => handleEditButtonClick(todo)}
-                        className="text-blue-500 hover:text-blue-700 transition rounded-lg h-10 w-9 hover:bg-white border-blue-600 px-1 border focus:outline-none"
-                      >
-                        <MdEdit size={24} />
-                      </button>
-                      <button
-                        onClick={() => handleDelete(todo._id)}
-                        className="text-red-500 hover:text-red-700 transition rounded-md border h-10 w-9 px-1 border-red-500 hover:bg-red-100 focus:outline-none"
-                      >
-                        <MdDelete size={24} />
-                      </button>
+                      <Tooltip title="Edit" arrow placement="top">
+                        <button
+                          onClick={() => handleEditButtonClick(todo)}
+                          className="text-blue-500 hover:text-blue-700 transition rounded-lg h-10 w-9 hover:bg-white border-blue-600 px-1 border focus:outline-none">
+                          <MdEdit size={24} />
+                        </button>
+                      </Tooltip>
+                      <Tooltip title="Delete" arrow placement="top">
+                        <button
+                          onClick={() => handleDelete(todo._id)}
+                          className="text-red-500 hover:text-red-700 transition rounded-md border h-10 w-9 px-1 border-red-500 hover:bg-red-100 focus:outline-none">
+                          <MdDelete size={24} />
+                        </button>
+                      </Tooltip>
                     </div>
                     <div className="pt-5 text-xl font-semibold text-white font-sans">
                       <div>{new Date(todo.date).toLocaleDateString()}</div>
@@ -138,7 +141,7 @@ function UpComing() {
       )}
 
       {activeForm === "HomeForm" && <HomeForm onClose={handleFormClose} editTodo={editTodo} />}
-      {activeForm === "HomeForm2" && <HomeForm2 onClose={handleFormClose} editTodo={editTodo} />} 
+      {activeForm === "HomeForm2" && <HomeForm2 onClose={handleFormClose} editTodo={editTodo} />}
     </div>
   );
 }

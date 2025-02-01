@@ -14,7 +14,7 @@ router.put('/todo/:id', updateTodo);
 
 router.get('/todos', getTodos); 
 
-router.get('/gettodo', getTodoById); 
+router.get('/gettodo/:id', getTodoById); 
 
 router.delete('/todo/:id', deleteTodo); 
 

@@ -7,6 +7,7 @@ import axios from 'axios';
 import { MdEdit } from 'react-icons/md';
 import { MdDelete } from 'react-icons/md'; // Import delete icon
 import LinearProgress from '@mui/material/LinearProgress';
+import Tooltip from '@mui/material/Tooltip';
 
 export default function DateTimeWithLiveClock() {
   const [date, setDate] = React.useState(dayjs());
@@ -62,8 +63,8 @@ export default function DateTimeWithLiveClock() {
 
   const handleDelete = (id) => {
     const token = localStorage.getItem('token');
-console.log(id);
-console.log(token);
+    console.log(id);
+    console.log(token);
 
 
     if (!token) {
@@ -157,27 +158,31 @@ console.log(token);
         ) : error ? (
           <p className="text-red-500">{error}</p>
         ) : filteredTodos.length > 0 ? (
-          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
+          <ul className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 gap-6">
             {filteredTodos.map((todo) => (
               <li key={todo._id} className="mb-2">
                 <div
-                  className="flex flex-col pt-4 pl-4 pb-3 rounded-lg mt-5 shadow-neutral-700 shadow-xl"
+                  className="flex flex-col pt-4 pl-4 pb-3 rounded-lg mt-10 mx-10 shadow-neutral-700 shadow-xl"
                   style={{ backgroundColor: todo.backgroundColor || '#2D3748' }}
                 >
                   <div className="text-lg w-40 text-white mb-auto flex-grow">
-                    <div className='font-bold text-3xl'>{todo.title}</div>
+                    <div className='font-bold text-2xl'>{todo.title}</div>
                     <div className='font-medium text-xl'>{todo.description}</div>
                   </div>
 
                   <div className="flex space-x-3 mt-8">
                     <div className='mt-7 space-x-3'>
-                      <button onClick={() => handleEdit(todo)} className="text-blue-500 hover:text-blue-700 transition rounded-lg h-10 w-9 hover:bg-white border-blue-600 px-1 border focus:outline-none">
-                        <MdEdit size={24} />
-                      </button>
-                      {/* Delete Button */}
-                      <button onClick={() => handleDelete(todo._id)} className="text-red-500 hover:text-red-700 transition rounded-lg h-10 w-9 hover:bg-white border-red-600 px-1 border focus:outline-none">
-                        <MdDelete size={24} />
-                      </button>
+                      <Tooltip title="Edit" arrow placement="top">
+                        <button onClick={() => handleEdit(todo)} className="text-blue-500 hover:text-blue-700 transition rounded-lg h-10 w-9 hover:bg-white border-blue-600 px-1 border focus:outline-none">
+                          <MdEdit size={24} />
+                        </button>
+                        {/* Delete Button */}
+                      </Tooltip>
+                      <Tooltip title="Delete" arrow placement="top">
+                        <button onClick={() => handleDelete(todo._id)} className="text-red-500 hover:text-red-700 transition rounded-lg h-10 w-9 hover:bg-white border-red-600 px-1 border focus:outline-none">
+                          <MdDelete size={24} />
+                        </button>
+                      </Tooltip>
                     </div>
                     <div className='pt-5 text-xl font-semibold text-white font-sans'>
                       <div className=''>{new Date(todo.date).toLocaleDateString()}</div>
@@ -189,7 +194,7 @@ console.log(token);
             ))}
           </ul>
         ) : (
-          <p className="text-gray-500 text-center">No todos for this date.</p>
+          <p className="mt-10 text-center">No todos for this date.</p>
         )}
       </div>
     </LocalizationProvider>

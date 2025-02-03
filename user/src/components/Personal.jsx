@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import LinearProgress from '@mui/material/LinearProgress';
-import { MdDelete, MdEdit } from "react-icons/md"; // Add icons for Edit and Delete
-import HomeForm2 from './HomeForm2'; // Import HomeForm2 for editing
+import { MdDelete, MdEdit } from "react-icons/md"; 
+import HomeForm2 from './HomeForm2'; 
 import Tooltip from '@mui/material/Tooltip';
 
 function Personal() {
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [editTodo, setEditTodo] = useState(null); // State for the todo being edited
-  const [showForm, setShowForm] = useState(false); // State for toggling form visibility
+  const [editTodo, setEditTodo] = useState(null);
+  const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
     fetchTodos();
@@ -31,7 +31,7 @@ function Personal() {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      setTodos(response.data.todos); // Set all todos
+      setTodos(response.data.todos); 
     } catch (error) {
       console.error('Error fetching todos:', error);
       setError('Error fetching todos');
@@ -67,21 +67,19 @@ function Personal() {
 
   const handleEdit = (todo) => {
     setEditTodo(todo);
-    setShowForm(true); // Show form for editing
+    setShowForm(true); 
   };
 
-  // Filter todos with "personal" list
   const filteredTodos = todos.filter(todo => todo.list === "Personal");
 
   return (
-    <div className="p-5 min-h-screen">
+    <div className="p-5">
       <div className="flex justify-center">
-        <h2 className="text-3xl font-bold text-center shadow-neutral-700 shadow-xl bg-[#737373] p-4 rounded">
+        <h2 className="text-3xl font-bold text-center shadow-md bg-[#90CAF9] bg-opacity-20 p-4 rounded-xl">
           Personal Todos
         </h2>
       </div>
 
-      {/* Only render Personal Todos if the form is not shown */}
       {!showForm && (
         <>
           {loading ? (
@@ -95,15 +93,14 @@ function Personal() {
               {filteredTodos.map((todo) => (
                 <div
                   key={todo._id}
-                  className="flex flex-col pt-4 pl-4 pb-3 rounded-lg mt-10 mx-10 shadow-neutral-700 shadow-xl"
-                  style={{ backgroundColor: todo.backgroundColor || '#f0f0f0' }} // Background color applied
+                  className="flex flex-col pt-4 pl-4 pb-3 rounded-xl mt-10 mx-10 shadow-[#2B3740] shadow-lg"
+                  style={{ backgroundColor: todo.backgroundColor || '#f0f0f0' }} 
                 >
                   <div className="text-lg w-40 text-white mb-auto flex-grow">
                     <div className='font-bold text-2xl'>{todo.title}</div>
                     <div className='font-medium text-xl'>{todo.description}</div>
                   </div>
 
-                  {/* Align the buttons at the bottom and use flex layout */}
                   <div className="flex space-x-3 mt-8">
                     <div className='mt-7 space-x-3'>
                       <Tooltip title="Edit" arrow placement="top">
@@ -126,12 +123,11 @@ function Personal() {
               ))}
             </div>
           ) : (
-            <p className="text-gray-500 text-center">No personal todos available.</p>
+            <p className="mt-10 text-center">No personal todos available.</p>
           )}
         </>
       )}
 
-      {/* Render HomeForm2 if showForm is true */}
       {showForm && <HomeForm2 onClose={() => setShowForm(false)} editTodo={editTodo} />}
     </div>
   );

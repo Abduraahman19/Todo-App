@@ -63,14 +63,12 @@ function HomeForm2({ editTodo, onClose, onUpdate }) {
 
             enqueueSnackbar('Todo updated successfully!', { variant: 'success' });
 
-            // UI update kare bina reload ke
             if (onUpdate) {
                 onUpdate({ ...editTodo, ...updatedTodo });
             }
 
             onClose();
 
-            // Page ko reload karne ke liye
             window.location.reload();
 
         } catch (error) {

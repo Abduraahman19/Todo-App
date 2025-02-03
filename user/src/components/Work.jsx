@@ -10,8 +10,8 @@ function TodayTodos() {
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [activeForm, setActiveForm] = useState(null);  // State for active form
-  const [editTodo, setEditTodo] = useState(null); // State for the todo being edited
+  const [activeForm, setActiveForm] = useState(null); 
+  const [editTodo, setEditTodo] = useState(null); 
 
   useEffect(() => {
     fetchTodos();
@@ -32,10 +32,9 @@ function TodayTodos() {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      // Filter todos that have "work" in their list, regardless of the date
       const workTodos = response.data.todos.filter(todo => todo.list.toLowerCase() === "work");
 
-      setTodos(workTodos); // Set only todos that belong to "work" list
+      setTodos(workTodos); 
     } catch (error) {
       console.error('Error fetching todos:', error);
       setError('Error fetching todos');
@@ -72,23 +71,22 @@ function TodayTodos() {
 
   const handleEditButtonClick = (todo, formType) => {
     setEditTodo(todo);
-    setActiveForm(formType); // Dynamically set active form
+    setActiveForm(formType); 
   };
 
   const handleFormClose = () => {
-    setActiveForm(null); // Close the form
-    setEditTodo(null); // Clear edit todo
+    setActiveForm(null); 
+    setEditTodo(null); 
   };
 
   return (
-    <div className="p-5 min-h-screen">
+    <div className="p-5">
       <div className="flex justify-center">
         <h2 className="text-3xl font-bold text-center shadow-neutral-700 shadow-xl bg-[#737373] p-4 rounded">
           Work Todos
         </h2>
       </div>
 
-      {/* Only render TodayTodos if activeForm is null */}
       {activeForm === null && (
         <>
           {loading ? (
@@ -133,12 +131,11 @@ function TodayTodos() {
               ))}
             </ul>
           ) : (
-            <p className="text-gray-500 text-center">No todos for today.</p>
+            <p className="text-gray-500 text-center">No todos for Work.</p>
           )}
         </>
       )}
 
-      {/* Conditionally render the forms based on activeForm */}
       {activeForm === "HomeForm" && <HomeForm onClose={handleFormClose} editTodo={editTodo} />}
       {activeForm === "HomeForm2" && <HomeForm2 onClose={handleFormClose} editTodo={editTodo} />}
     </div>

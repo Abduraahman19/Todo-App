@@ -4,8 +4,8 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 import { MdDelete, MdEdit } from "react-icons/md";
 import HomeForm from './HomeForm';
 import LinearProgress from '@mui/material/LinearProgress';
-import HomeForm2 from './HomeForm2'; // Import HomeForm2
-import Tooltip from '@mui/material/Tooltip'; // Ensure Tooltip is imported
+import HomeForm2 from './HomeForm2';
+import Tooltip from '@mui/material/Tooltip'; 
 
 function Home() {
   const [showForm, setShowForm] = useState(false);
@@ -87,9 +87,8 @@ function Home() {
   };
 
   return (
-    <div className='justify-center sm:justify-start p-5 min-h-screen'>
+    <div className='justify-center sm:justify-start p-5'>
 
-      {/* Add Todo button */}
       {!showForm && !showHomeForm2 && (
         <div className='flex md:justify-start justify-center items-center'>
           <div
@@ -101,7 +100,6 @@ function Home() {
         </div>
       )}
 
-      {/* Show Home Title Only When Todos Are Visible */}
       {!showForm && !showHomeForm2 && todos.length > 0 && (
         <div className='flex mt-8 justify-center'>
           <div className='bg-neutral-700 w-32 sm:h-14 rounded-md shadow-lg shadow-neutral-500 text-white content-center text-3xl font-bold text-center font-sans'>
@@ -110,11 +108,9 @@ function Home() {
         </div>
       )}
 
-      {/* Show Forms */}
       {showForm && <HomeForm onClose={handleFormClose} editTodo={editTodo} />}
       {showHomeForm2 && <HomeForm2 onClose={() => setShowHomeForm2(false)} editTodo={editTodo} />}
 
-      {/* Loading or Error State */}
       {loading ? (
         <div className="w-full px-10 sm:px-20 md:px-40 py-10">
           <LinearProgress />
@@ -123,7 +119,6 @@ function Home() {
         <div>Error: {error}</div>
       ) : (
         <div>
-          {/* Show Todos */}
           {!showForm && !showHomeForm2 && todos.length > 0 ? (
             <ul className='grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 gap-6'>
               {todos.map((todo) => (
@@ -137,7 +132,6 @@ function Home() {
 
                   <div className="flex space-x-3 mt-8">
                     <div className='mt-7 space-x-3'>
-                      {/* Edit and Delete Buttons */}
                       <Tooltip title="Edit" arrow placement="top">
                         <button onClick={() => handleEditButtonClick(todo)} className="text-blue-500 hover:text-blue-700 transition rounded-lg h-10 w-9 hover:bg-white border-blue-600 px-1 border focus:outline-none">
                           <MdEdit size={24} />

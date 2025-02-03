@@ -11,7 +11,7 @@ function TodayTodos() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [activeForm, setActiveForm] = useState(null);
-  const [editTodo, setEditTodo] = useState(null); // State for toggling form visibility
+  const [editTodo, setEditTodo] = useState(null); 
 
   useEffect(() => {
     fetchTodos();
@@ -31,14 +31,13 @@ function TodayTodos() {
       const response = await axios.get('http://localhost:5000/api/todos', {
         headers: { Authorization: `Bearer ${token}` },
       });
-      const today = new Date().toLocaleDateString(); // Get today's date in the same format
+      const today = new Date().toLocaleDateString(); 
 
-      // Filter todos that are for today
       const todaysTodos = response.data.todos.filter(todo => {
         return new Date(todo.date).toLocaleDateString() === today;
       });
 
-      setTodos(todaysTodos); // Set only today's todos
+      setTodos(todaysTodos); 
     } catch (error) {
       console.error('Error fetching todos:', error);
       setError('Error fetching todos');
@@ -84,14 +83,13 @@ function TodayTodos() {
   };
 
   return (
-    <div className="p-5 min-h-screen">
+    <div className="p-5">
       <div className="flex justify-center">
         <h2 className="text-3xl font-bold text-center shadow-neutral-700 shadow-xl bg-[#737373] p-4 rounded">
           Today's Todos
         </h2>
       </div>
 
-      {/* Only render TodayTodos if activeForm is null */}
       {activeForm === null && (
         <>
           {loading ? (
@@ -106,7 +104,7 @@ function TodayTodos() {
                 <li
                   key={todo._id}
                   className="flex flex-col pt-4 pl-4 pb-3 rounded-lg mt-10 mx-10 shadow-neutral-700 shadow-xl"
-                  style={{ backgroundColor: todo.backgroundColor || '#f0f0f0' }} // Background color applied
+                  style={{ backgroundColor: todo.backgroundColor || '#f0f0f0' }} 
                 >
                   <div className="text-lg w-40 text-white mb-auto flex-grow">
                     <div className='font-bold text-2xl'>{todo.title}</div>
@@ -137,12 +135,11 @@ function TodayTodos() {
               ))}
             </ul>
           ) : (
-            <p className="text-gray-500 text-center">No todos for today.</p>
+            <p className="mt-10 text-center">No todos for today.</p>
           )}
         </>
       )}
 
-      {/* Form Rendering */}
       {activeForm === "HomeForm" && <HomeForm onClose={handleFormClose} editTodo={editTodo} />}
       {activeForm === "HomeForm2" && <HomeForm2 onClose={handleFormClose} editTodo={editTodo} />}
     </div>

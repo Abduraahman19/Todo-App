@@ -82,7 +82,7 @@ function UpComing() {
   };
 
   return (
-    <div className="p-5 min-h-screen">
+    <div className="p-5">
       <div className="flex justify-center">
         <h2 className="text-3xl font-bold text-center shadow-neutral-700 shadow-xl bg-[#737373] p-4 rounded">
           Upcoming Todos
@@ -135,7 +135,7 @@ function UpComing() {
               ))}
             </ul>
           ) : (
-            !activeForm && <h1 className="text-center font-bold text-2xl">No upcoming todos found.</h1>
+            !activeForm && <h1 className="mt-10 text-center">No upcoming todos found.</h1>
           )}
         </>
       )}

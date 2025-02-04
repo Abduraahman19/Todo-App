@@ -28,11 +28,11 @@ function Signup() {
 
         try {
             const response = await axios.post('http://localhost:5000/api/auth/signup', { name, email, password });
-            alert('Sign-Up Successful');
-            console.log(response);
-           if (response.status === 200)
-            navigate("/");
             
+            // Sign-up successful, navigate to home page
+            if (response.status === 200) {
+                navigate("/");
+            }
         } catch (err) {
             setError(err.response?.data?.message || 'An error occurred. Please try again.');
         } finally {

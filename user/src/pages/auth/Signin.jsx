@@ -7,6 +7,7 @@ import { AiFillTwitterCircle } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import VR from "../../../public/Icon/vr.jpg";
 import { useNavigate } from "react-router-dom";
+import MoonLoader from 'react-spinners/MoonLoader';
 
 function SignIn() {
   const [email, setEmail] = useState("");
@@ -28,8 +29,6 @@ function SignIn() {
     try {
       const response = await axios.post("http://localhost:5000/api/auth/signin", { email, password });
       if (response.status === 200) {
-        alert("Sign-In Successful");
-        console.log(response.data);
         localStorage.setItem("token", response.data.token);
         navigate("/dashboard");
       }
@@ -90,7 +89,14 @@ function SignIn() {
                 className="w-[220px] h-[45px] bg-blue-900 text-white py-2 rounded-[16px] hover:bg-blue-700 transition-all"
                 disabled={loading}
               >
-                {loading ? "Signing In..." : "Sign In"}
+                {loading ? (
+                  <div className="flex items-center justify-center">
+                    <MoonLoader color="white" size={20} />
+                    <span className="ml-2">Signing In...</span>
+                  </div>
+                ) : (
+                  "Sign In"
+                )}
               </button>
             </div>
           </form>

@@ -102,7 +102,7 @@ function Home() {
 
       {!showForm && !showHomeForm2 && todos.length > 0 && (
         <div className='flex mt-8 justify-center'>
-          <div className='bg-neutral-700 w-32 sm:h-14 rounded-md shadow-lg shadow-neutral-500 text-white content-center text-3xl font-bold text-center font-sans'>
+          <div className='bg-[#90CAF9] bg-opacity-20 w-32 sm:h-14 rounded-md shadow-md content-center text-3xl font-bold text-center font-sans'>
             Home
           </div>
         </div>
@@ -122,7 +122,7 @@ function Home() {
           {!showForm && !showHomeForm2 && todos.length > 0 ? (
             <ul className='grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 gap-6'>
               {todos.map((todo) => (
-                <li key={todo._id} className="flex flex-col pt-4 pl-4 pb-3 rounded-lg mt-10 mx-10 shadow-neutral-700 shadow-xl"
+                <li key={todo._id} className="flex flex-col pt-4 pl-4 pb-3 rounded-lg mt-10 mx-10 shadow-[#2B3740] shadow-lg"
                   style={{ backgroundColor: todo.backgroundColor || '#f0f0f0' }}
                 >
                   <div className="text-lg w-40 text-white mb-auto flex-grow">

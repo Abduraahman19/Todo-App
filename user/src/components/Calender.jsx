@@ -104,28 +104,17 @@ export default function DateTimeWithLiveClock() {
           <HomeForm2 onClose={handleFormClose} editTodo={editTodo} />
         ) : (
           <>
-            <div className="w-full max-w-sm text-center bg-neutral-700 text-white rounded-xl p-4 shadow-md mb-6">
+            <div className="w-full max-w-sm text-center bg-[#90CAF9] bg-opacity-20 rounded-xl p-4 shadow-md mb-6">
               <h2 className="text-2xl font-semibold underline underline-offset-8 mb-5">Date & Time</h2>
               <p className="text-xl font-bold">{date.format("DD MMM YYYY")}</p>
               <p className="text-2xl font-mono font-semibold mt-2">{time}</p>
             </div>
 
-            <div className="w-full max-w-sm text-center text-white rounded-xl p-4 mb-6">
-              <div className="w-full max-w-md text-center bg-neutral-700 text-white rounded-xl mb-[-20px] p-4">
+            <div className="w-full max-w-sm text-center rounded-xl  p-4 mb-6">
+              <div className="w-full max-w-md text-center bg-[#90CAF9] bg-opacity-20 rounded-xl mb-[-20px] p-4">
                 <DateCalendar
                   value={date}
                   onChange={(newDate) => setDate(newDate)}
-                  sx={{
-                    color: "white",
-                    "& .MuiTypography-root": { color: "white" },
-                    "& .MuiPickersDay-root": { color: "white" }, 
-                    "& .Mui-selected": { backgroundColor: "white", color: "black" },
-                    "& .MuiButtonBase-root": { color: "white" }, 
-                    "& .MuiSvgIcon-root": { color: "white" },
-                    "& .MuiInputBase-root": { color: "white" },
-                    "& .MuiOutlinedInput-root": { borderColor: "white" }, 
-                    "& .MuiFormLabel-root": { color: "white" }, 
-                  }}
                 />
               </div>
             </div>
@@ -144,7 +133,7 @@ export default function DateTimeWithLiveClock() {
                   {filteredTodos.map((todo) => (
                     <li
                       key={todo._id}
-                      className="flex flex-col pt-4 pl-4 pb-3 rounded-lg mt-10 mx-10 shadow-neutral-700 shadow-xl"
+                      className="flex flex-col pt-4 pl-4 pb-3 rounded-lg mt-10 mx-10 shadow-[#2B3740] shadow-lg"
                       style={{ backgroundColor: todo.backgroundColor || "#f0f0f0" }}
                     >
                       <div className="text-lg w-40 text-white mb-auto flex-grow">
@@ -181,7 +170,7 @@ export default function DateTimeWithLiveClock() {
                   ))}
                 </ul>
               ) : (
-                <p className="text-center text-gray-500">No todos for this date.</p>
+                <p className="text-center mt-5">No todos for this date.</p>
               )}
             </div>
           </>

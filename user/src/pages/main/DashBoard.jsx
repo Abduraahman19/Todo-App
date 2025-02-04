@@ -33,6 +33,8 @@ const ButtonComponent = () => {
 
   const handleSignOut = () => {
     Swal.fire({
+      background: '#64748B',
+      color: 'white',
       title: 'Are you sure?',
       text: 'You will be logged out!',
       icon: 'warning',
@@ -40,15 +42,28 @@ const ButtonComponent = () => {
       confirmButtonText: 'Yes, sign out!',
       cancelButtonText: 'Cancel',
       reverseButtons: true,
+      confirmButtonColor: '#d32f2f', // Red color for the sign-out button
+      cancelButtonColor: '#655CC9', // Grey color for the cancel button  
+      customClass: {
+        popup: 'swal-rounded-popup', // Custom styling
+      },
     }).then((result) => {
       if (result.isConfirmed) {
-        // Remove token from localStorage
         localStorage.removeItem('token');
-        // Navigate to the signin page
-        navigate('/signin');
+        navigate('/');
       }
     });
+  
+    // Adding styles dynamically
+    const style = document.createElement('style');
+    style.innerHTML = `
+      .swal-rounded-popup {
+        border-radius: 20px !important; /* Rounded corners */
+      }
+    `;
+    document.head.appendChild(style);
   };
+  
 
   return (
     <Button

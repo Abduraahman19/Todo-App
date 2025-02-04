@@ -75,7 +75,7 @@ function Personal() {
   return (
     <div className="p-5">
       <div className="flex justify-center">
-        <h2 className="text-3xl font-bold text-center shadow-md bg-[#90CAF9] bg-opacity-20 p-4 rounded-xl">
+        <h2 className="text-3xl font-bold text-center shadow-md bg-[#90CAF9] bg-opacity-20 p-4 rounded-md">
           Personal Todos
         </h2>
       </div>
@@ -93,7 +93,7 @@ function Personal() {
               {filteredTodos.map((todo) => (
                 <div
                   key={todo._id}
-                  className="flex flex-col pt-4 pl-4 pb-3 rounded-xl mt-10 mx-10 shadow-[#2B3740] shadow-lg"
+                  className="flex flex-col pt-4 pl-4 pb-3 rounded-lg mt-10 mx-10 shadow-[#2B3740] shadow-lg"
                   style={{ backgroundColor: todo.backgroundColor || '#f0f0f0' }} 
                 >
                   <div className="text-lg w-40 text-white mb-auto flex-grow">

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
 import { FaFacebook } from 'react-icons/fa';
-import { AiFillTwitterCircle } from 'react-icons/ai';
+import { FaSquareXTwitter } from "react-icons/fa6";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import MoonLoader from 'react-spinners/MoonLoader';
@@ -28,7 +28,7 @@ function Signup() {
 
         try {
             const response = await axios.post('http://localhost:5000/api/auth/signup', { name, email, password });
-            
+
             // Sign-up successful, navigate to home page
             if (response.status === 200) {
                 navigate("/");
@@ -115,7 +115,7 @@ function Signup() {
                     <div className="flex gap-8 text-3xl justify-center">
                         <FcGoogle className="cursor-pointer rounded-full shadow-stone-600 shadow-lg" />
                         <FaFacebook className="text-[#1877f2] cursor-pointer rounded-full shadow-stone-600 shadow-lg" />
-                        <AiFillTwitterCircle className="text-[#1da1f2] cursor-pointer rounded-full shadow-stone-600 shadow-lg" />
+                        <FaSquareXTwitter className="text-black cursor-pointer shadow-stone-600 shadow-lg" />
                     </div>
                     <p className="mt-6 text-sm text-gray-500 text-center">
                         Already have an account?{' '}

@@ -3,7 +3,7 @@ import axios from "axios";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
-import { AiFillTwitterCircle } from "react-icons/ai";
+import { FaSquareXTwitter } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import VR from "../../../public/Icon/vr.jpg";
 import { useNavigate } from "react-router-dom";
@@ -67,7 +67,7 @@ function SignIn() {
                 placeholder="Enter your password"
                 className="w-full border-b-2 text-[#0b2f8a] font-medium border-[#15186D99] outline-none py-2"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)} 
+                onChange={(e) => setPassword(e.target.value)}
               />
               <span
                 onClick={togglePasswordVisibility}
@@ -110,7 +110,7 @@ function SignIn() {
           <div className="flex gap-8 text-3xl justify-center">
             <FcGoogle className="cursor-pointer rounded-full shadow-stone-600 shadow-lg" />
             <FaFacebook className="text-[#1877f2] cursor-pointer rounded-full shadow-stone-600 shadow-lg" />
-            <AiFillTwitterCircle className="text-[#1da1f2] cursor-pointer rounded-full shadow-stone-600 shadow-lg" />
+            <FaSquareXTwitter className="text-black cursor-pointer shadow-stone-600 shadow-lg" />
           </div>
 
           <p className="mt-6 text-sm text-gray-500 text-center">

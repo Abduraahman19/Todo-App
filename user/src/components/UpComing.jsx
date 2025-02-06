@@ -5,6 +5,7 @@ import { MdDelete, MdEdit } from "react-icons/md";
 import HomeForm from "./HomeForm";
 import HomeForm2 from "./HomeForm2";
 import Tooltip from '@mui/material/Tooltip';
+import Swal from 'sweetalert2';
 
 function UpComing() {
   const [todos, setTodos] = useState([]);
@@ -59,21 +60,48 @@ function UpComing() {
       return;
     }
 
-    const token = localStorage.getItem("token");
-    if (!token) {
-      console.error("No token found");
-      return;
-    }
+    Swal.fire({
+      background: '#64748B',
+      color: 'white',
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this todo!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'Cancel',
+      reverseButtons: true,
+      confirmButtonColor: '#d32f2f',
+      cancelButtonColor: '#655CC9',
+      customClass: {
+        popup: 'swal-rounded-popup',
+      },
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          console.error("No token found");
+          return;
+        }
 
-    try {
-      await axios.delete(`http://localhost:5000/api/todo/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setTodos((prevTodos) => prevTodos.filter((todo) => todo._id !== id));
-    } catch (err) {
-      console.error("Error deleting todo:", err);
-      setError("Error deleting todo");
-    }
+        try {
+          await axios.delete(`http://localhost:5000/api/todo/${id}`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          setTodos((prevTodos) => prevTodos.filter((todo) => todo._id !== id));
+        } catch (err) {
+          console.error("Error deleting todo:", err);
+          setError("Error deleting todo");
+        }
+      }
+    });
+
+    const style = document.createElement('style');
+    style.innerHTML = `
+      .swal-rounded-popup {
+        border-radius: 20px !important;
+      }
+    `;
+    document.head.appendChild(style);
   };
 
   const handleFormClose = () => {
@@ -83,11 +111,13 @@ function UpComing() {
 
   return (
     <div className="p-5">
-      <div className="flex justify-center">
-        <h2 className="text-3xl font-bold text-center shadow-md bg-[#90CAF9] bg-opacity-20 p-4 rounded-md">
-          Upcoming Todos
-        </h2>
-      </div>
+      {!activeForm && (
+        <div className="flex justify-center">
+          <h2 className="text-3xl font-bold text-center shadow-md bg-[#90CAF9] bg-opacity-20 p-4 rounded-md">
+            Upcoming Todos
+          </h2>
+        </div>
+      )}
 
       {loading ? (
         <div className="w-full px-10 sm:px-20 md:px-40 py-10">
@@ -98,37 +128,37 @@ function UpComing() {
       ) : (
         <>
           {!activeForm && todos.length > 0 ? (
-            <ul className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 gap-6">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {todos.map((todo) => (
                 <li
                   key={todo._id}
-                  className="flex flex-col pt-4 pl-4 pb-3 rounded-lg mt-10 mx-10 shadow-[#2B3740] shadow-lg"
+                  className="flex flex-col p-5 rounded-lg shadow-lg mt-10 bg-opacity-90 backdrop-blur-md"
                   style={{ backgroundColor: todo.backgroundColor || "#f0f0f0" }}
                 >
-                  <div className="text-lg w-40 text-white mb-auto flex-grow">
+                  <div className="text-lg text-white mb-auto">
                     <div className="font-bold text-2xl">{todo.title}</div>
                     <div className="font-medium text-xl">{todo.description}</div>
                   </div>
-                  <div className="flex space-x-3 mt-8">
-                    <div className="mt-7 space-x-3">
+                  <div className="flex justify-between items-center mt-8">
+                    <div>
+                      <div className="text-lg font-semibold text-white">{new Date(todo.date).toLocaleDateString()}</div>
+                      <div className="text-md text-gray-300">{todo.list}</div>
+                    </div>
+                    <div className="flex space-x-3">
                       <Tooltip title="Edit" arrow placement="top">
                         <button
                           onClick={() => handleEditButtonClick(todo)}
-                          className="text-blue-500 hover:text-blue-700 transition rounded-lg h-10 w-9 hover:bg-white border-blue-600 px-1 border focus:outline-none">
+                          className="text-blue-500 hover:text-blue-700 transition rounded-lg p-2 border border-blue-600 hover:bg-white">
                           <MdEdit size={24} />
                         </button>
                       </Tooltip>
                       <Tooltip title="Delete" arrow placement="top">
                         <button
                           onClick={() => handleDelete(todo._id)}
-                          className="text-red-500 hover:text-red-700 transition rounded-md border h-10 w-9 px-1 border-red-500 hover:bg-red-100 focus:outline-none">
+                          className="text-red-500 hover:text-red-700 transition rounded-lg p-2 border border-red-500 hover:bg-red-100">
                           <MdDelete size={24} />
                         </button>
                       </Tooltip>
-                    </div>
-                    <div className="pt-5 text-xl font-semibold text-white font-sans">
-                      <div>{new Date(todo.date).toLocaleDateString()}</div>
-                      <div>{todo.list}</div>
                     </div>
                   </div>
                 </li>

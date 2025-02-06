@@ -69,7 +69,7 @@ function HomeForm2({ editTodo, onClose, onUpdate }) {
 
             onClose();
 
-            // window.location.reload();
+            window.location.reload();
 
         } catch (error) {
             console.error('Error updating todo:', error);
@@ -87,12 +87,12 @@ function HomeForm2({ editTodo, onClose, onUpdate }) {
     };
 
     return (
-        <div className="p-10">
-            <div className='flex justify-center mb-14'>
-                <div className='bg-neutral-700 w-48 sm:h-14 rounded-md shadow-lg shadow-neutral-500 text-white content-center text-3xl font-bold text-center font-sans'>
-                    EDIT TODO
-                </div>
-            </div>
+        <div className="p-5">
+             <div className="flex justify-center">
+          <h2 className="text-3xl font-bold text-center mb-10 shadow-md bg-[#90CAF9] bg-opacity-20 p-4 rounded-md">
+            Edit Todo
+          </h2>
+        </div>
             <Box component="form" className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <TextField 
                     label="Title" 

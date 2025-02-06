@@ -166,12 +166,12 @@ function SelectSmall({ text, setText, color, setColor }) {
     return (
         <div className="gap-4">
             <FormControl sx={{ m: 1, minWidth: '99%' }} size="medium">
-                <InputLabel id="demo-select-small-label">List</InputLabel>
+                <InputLabel id="demo-select-small-label">Select a List</InputLabel>
                 <Select
                     labelId="demo-select-small-label"
                     id="demo-select-small"
                     value={text}
-                    label="List"
+                    label="Select a List"
                     onChange={handleSelectChange}
                     className="h-12 p-2"
                 >

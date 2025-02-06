@@ -34,7 +34,7 @@ function SignIn() {
       }
     } catch (err) {
       if (err.response?.data?.message === "Invalid credentials") {
-        setError("Incorrect Password");
+        setError("Incorrect email or password. Please try again.");
       } else {
         setError(err.response?.data?.message || "An error occurred. Please try again.");
       }

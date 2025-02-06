@@ -29,7 +29,6 @@ function Signup() {
         try {
             const response = await axios.post('http://localhost:5000/api/auth/signup', { name, email, password });
 
-            // Sign-up successful, navigate to home page
             if (response.status === 200) {
                 navigate("/");
             }

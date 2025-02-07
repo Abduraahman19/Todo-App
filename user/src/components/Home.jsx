@@ -7,6 +7,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 import HomeForm2 from './HomeForm2';
 import Tooltip from '@mui/material/Tooltip';
 import Swal from 'sweetalert2';
+import MultipleSelect from './MultipleSelect';
 
 function Home() {
   const [showForm, setShowForm] = useState(false);
@@ -116,6 +117,15 @@ function Home() {
 
   return (
     <div className='justify-center sm:justify-start p-5'>
+      {!showForm && !showHomeForm2 && (
+        <div className='py-5 pl-2'>
+          <div className='sm:pl-4 text-xl font-bold'>
+            Today Task
+          </div>
+          <MultipleSelect />
+        </div>
+      )}
+
       {!showForm && !showHomeForm2 && (
         <div className='flex md:justify-start justify-center items-center'>
           <div
